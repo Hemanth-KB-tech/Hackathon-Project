@@ -1,0 +1,77 @@
+[
+  {
+    "id": "P1001",
+    "name": "John Doe",
+    "age": 67,
+    "gender": "Male",
+    "riskScore": 87,
+    "riskLevel": "High",
+    "conditions": ["Hypertension", "Type 2 Diabetes", "Chronic Kidney Disease"],
+    "admissions": ["ER Visit - 02/15/2024", "Hospitalization - 06/20/2023"],
+    "interventions": [
+      "Schedule monthly telehealth check-up",
+      "Enroll in diabetes management program",
+      "Monitor blood pressure daily using mobile app"
+    ]
+  },
+  {
+    "id": "P1002",
+    "name": "Mary Johnson",
+    "age": 59,
+    "gender": "Female",
+    "riskScore": 42,
+    "riskLevel": "Medium",
+    "conditions": ["Asthma", "Obesity"],
+    "admissions": ["Check-up - 03/10/2024"],
+    "interventions": [
+      "Encourage daily physical activity",
+      "Regular inhaler use tracking",
+      "Follow nutrition plan"
+    ]
+  },
+  {
+    "id": "P1003",
+    "name": "Robert Smith",
+    "age": 72,
+    "gender": "Male",
+    "riskScore": 23,
+    "riskLevel": "Low",
+    "conditions": ["Mild Arthritis"],
+    "admissions": ["Check-up - 01/05/2024"],
+    "interventions": [
+      "Routine exercise",
+      "Maintain healthy diet",
+      "Regular physiotherapy sessions"
+    ]
+  },
+  {
+    "id": "P1004",
+    "name": "Linda Brown",
+    "age": 65,
+    "gender": "Female",
+    "riskScore": 69,
+    "riskLevel": "Medium",
+    "conditions": ["High Cholesterol", "Hypertension"],
+    "admissions": ["ER Visit - 04/12/2024", "Check-up - 05/18/2023"],
+    "interventions": [
+      "Take prescribed medications regularly",
+      "Monitor cholesterol levels monthly",
+      "Attend dietitian consultation"
+    ]
+  },
+  {
+    "id": "P1005",
+    "name": "James Wilson",
+    "age": 70,
+    "gender": "Male",
+    "riskScore": 95,
+    "riskLevel": "High",
+    "conditions": ["Heart Disease", "Diabetes Type 2", "Hypertension"],
+    "admissions": ["Hospitalization - 07/22/2023", "ER Visit - 01/11/2024"],
+    "interventions": [
+      "Immediate cardiology follow-up",
+      "Intensive diabetes monitoring",
+      "Enroll in heart health program"
+    ]
+  }
+]
