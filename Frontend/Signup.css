@@ -1,91 +1,378 @@
-body {
-  margin: 0;
-  font-family: "Poppins", sans-serif;
-  background: url("https://img.freepik.com/free-photo/medical-background-with-abstract-dna-structure_1048-12988.jpg")
-    no-repeat center center fixed;
-  background-size: cover;
+.signup-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
-.signup-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  backdrop-filter: blur(5px);
+.signup-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') center/cover;
+  opacity: 0.1;
 }
 
 .signup-card {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 40px 50px;
-  border-radius: 16px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  width: 350px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 20px;
 }
 
-.signup-card h2 {
-  color: #004aad;
-  margin-bottom: 10px;
+.signup-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.medical-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.signup-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
 }
 
 .subtitle {
+  color: #6b7280;
   font-size: 14px;
-  color: #555;
-  margin-bottom: 25px;
-}
-
-.input-group {
-  text-align: left;
-  margin-bottom: 18px;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 6px;
   font-weight: 500;
-  color: #333;
+  line-height: 1.5;
 }
 
-.input-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.signup-form {
+  margin-bottom: 32px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
   font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.modern-input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: #fff;
+  font-family: inherit;
+}
+
+.modern-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+.modern-input.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.role-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.role-option {
+  cursor: pointer;
+}
+
+.role-option input {
+  display: none;
+}
+
+.role-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: #fff;
+  text-align: center;
+}
+
+.role-option input:checked + .role-card {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.role-icon {
+  font-size: 24px;
+}
+
+.role-label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.terms-agreement {
+  margin: 24px 0;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.checkbox-label input {
+  display: none;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.3s ease;
+}
+
+.checkbox-label input:checked + .checkmark {
+  background: #6366f1;
+  border-color: #6366f1;
+}
+
+.checkbox-label input:checked + .checkmark::after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-label a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.checkbox-label a:hover {
+  text-decoration: underline;
 }
 
 .signup-btn {
   width: 100%;
-  background-color: #004aad;
-  color: #fff;
-  padding: 10px;
+  padding: 16px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
-.signup-btn:hover {
-  background-color: #007bff;
+.signup-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
 }
 
-.links {
-  margin-top: 15px;
+.signup-btn:active {
+  transform: translateY(0);
 }
 
-.links button,
-.links a {
-  color: #004aad;
-  text-decoration: none;
-  font-size: 13px;
+.signup-btn.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.auth-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.auth-link {
   background: none;
   border: none;
+  color: #6366f1;
+  font-weight: 600;
   cursor: pointer;
-  padding: 0;
+  transition: color 0.3s ease;
 }
 
-.links button:hover,
-.links a:hover {
+.auth-link:hover {
+  color: #4f46e5;
   text-decoration: underline;
+}
+
+.security-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 12px;
+  color: #0369a1;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.security-icon {
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .signup-card {
+    padding: 32px 24px;
+    margin: 10px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .role-options {
+    grid-template-columns: 1fr;
+  }
+
+  .role-card {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 12px 16px;
+  }
+
+  .security-notice {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-header h1 {
+    font-size: 28px;
+  }
+
+  .medical-icon {
+    font-size: 40px;
+  }
+
+  .auth-links {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* Password strength indicator */
+.password-strength {
+  margin-top: 8px;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.strength-bar {
+  height: 100%;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.strength-weak {
+  background: #ef4444;
+  width: 33%;
+}
+
+.strength-medium {
+  background: #f59e0b;
+  width: 66%;
+}
+
+.strength-strong {
+  background: #10b981;
+  width: 100%;
 }
