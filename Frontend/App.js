@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import Signup from "./Signup";
+import "./App.css";
 
-// PrivateRoute: protects dashboard
 const PrivateRoute = ({ children }) => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   return isLoggedIn ? children : <Navigate to="/" />;
@@ -12,25 +12,22 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Login page */}
-        <Route path="/" element={<Login />} />
-
-        {/* Signup page */}
-        <Route path="/signup" element={<Signup />} />
-
-        {/* Dashboard page (protected) */}
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <div className="app">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
