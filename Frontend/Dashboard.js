@@ -3,15 +3,17 @@ import membersData from "./members.json";
 import "./Dashboard.css";
 
 function Dashboard() {
-  const [role, setRole] = useState("patient");
   const [patientId, setPatientId] = useState("");
-  const [nurseId, setNurseId] = useState("");
+  const [professionalId, setProfessionalId] = useState("");
   const [member, setMember] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchHistory, setSearchHistory] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
-  const [timeFilter, setTimeFilter] = useState("30d");
+  
+  // Get user role from localStorage
+  const userRole = localStorage.getItem("userRole") || "patient";
+  const loggedInUsername = localStorage.getItem("loggedInUser") || "";
 
   // Load search history from localStorage
   useEffect(() => {
@@ -39,13 +41,23 @@ function Dashboard() {
     setError("");
 
     setTimeout(() => {
+      // Validate based on role
+      if ((userRole === "doctor" || userRole === "nurse") && !professionalId.trim()) {
+        setError(`${userRole.charAt(0).toUpperCase() + userRole.slice(1)} ID is required.`);
+        setIsLoading(false);
+        return;
+      }
+
+      if (!patientId.trim()) {
+        setError("Patient ID is required.");
+        setIsLoading(false);
+        return;
+      }
+
       let foundMember = membersData.find((m) => m.id === patientId);
 
       if (!foundMember) {
         setError("Patient ID not found. Please check and try again.");
-        setMember(null);
-      } else if (role === "nurse" && nurseId.trim() === "") {
-        setError("Nurse ID is required for nurse access.");
         setMember(null);
       } else {
         setMember(foundMember);
@@ -67,14 +79,8 @@ function Dashboard() {
     return "Low Risk";
   };
 
-  const calculateAge = (dob) => {
-    // If you add date of birth to your data
-    return Math.floor((new Date() - new Date(dob)) / (365.25 * 24 * 60 * 60 * 1000));
-  };
-
   const quickSearch = (patientId) => {
     setPatientId(patientId);
-    // Auto-search after a brief delay
     setTimeout(() => {
       const foundMember = membersData.find((m) => m.id === patientId);
       if (foundMember) {
@@ -84,18 +90,183 @@ function Dashboard() {
     }, 100);
   };
 
+  // Render different forms based on user role
+  const renderAccessForm = () => {
+    switch(userRole) {
+      case "patient":
+        return (
+          <div className="access-panel patient-view">
+            <div className="panel-header">
+              <div className="medical-icon">👤</div>
+              <h2>Patient Portal</h2>
+              <p>Enter your Patient ID to access your health records</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="access-form">
+              <div className="form-group">
+                <label>Your Patient ID</label>
+                <input
+                  type="text"
+                  value={patientId}
+                  onChange={(e) => setPatientId(e.target.value)}
+                  placeholder="Enter your patient ID..."
+                  className="modern-input"
+                  required
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                className={`access-btn ${isLoading ? 'loading' : ''}`}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="spinner"></div>
+                ) : (
+                  <>
+                    <span>🔍</span>
+                    View My Health Data
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="patient-help">
+              <p>Don't know your Patient ID? Contact your healthcare provider.</p>
+            </div>
+          </div>
+        );
+
+      case "doctor":
+        return (
+          <div className="access-panel doctor-view">
+            <div className="panel-header">
+              <div className="medical-icon">🩺</div>
+              <h2>Doctor Portal</h2>
+              <p>Enter your Doctor ID and Patient ID to access medical records</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="access-form">
+              <div className="form-group">
+                <label>Doctor ID</label>
+                <input
+                  type="text"
+                  value={professionalId}
+                  onChange={(e) => setProfessionalId(e.target.value)}
+                  placeholder="Enter your doctor ID..."
+                  className="modern-input"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Patient ID</label>
+                <input
+                  type="text"
+                  value={patientId}
+                  onChange={(e) => setPatientId(e.target.value)}
+                  placeholder="Enter patient ID..."
+                  className="modern-input"
+                  required
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                className={`access-btn ${isLoading ? 'loading' : ''}`}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="spinner"></div>
+                ) : (
+                  <>
+                    <span>🔍</span>
+                    Access Medical Records
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        );
+
+      case "nurse":
+        return (
+          <div className="access-panel nurse-view">
+            <div className="panel-header">
+              <div className="medical-icon">👩‍⚕️</div>
+              <h2>Nurse Portal</h2>
+              <p>Enter your Nurse ID and Patient ID to access patient records</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="access-form">
+              <div className="form-group">
+                <label>Nurse ID</label>
+                <input
+                  type="text"
+                  value={professionalId}
+                  onChange={(e) => setProfessionalId(e.target.value)}
+                  placeholder="Enter your nurse ID..."
+                  className="modern-input"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Patient ID</label>
+                <input
+                  type="text"
+                  value={patientId}
+                  onChange={(e) => setPatientId(e.target.value)}
+                  placeholder="Enter patient ID..."
+                  className="modern-input"
+                  required
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                className={`access-btn ${isLoading ? 'loading' : ''}`}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="spinner"></div>
+                ) : (
+                  <>
+                    <span>🔍</span>
+                    Access Patient Records
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
         <div className="header-content">
-          <h1>CareSync Analytics Dashboard</h1>
-          <p>Comprehensive Patient Risk Management & Monitoring</p>
+          <h1>CareSync {userRole.charAt(0).toUpperCase() + userRole.slice(1)} Portal</h1>
+          <p>
+            {userRole === "patient" && "Access your personal health information"}
+            {userRole === "doctor" && `Welcome, Dr. ${loggedInUsername} - Medical Professional Dashboard`}
+            {userRole === "nurse" && `Welcome, Nurse ${loggedInUsername} - Patient Care Dashboard`}
+          </p>
         </div>
         <div className="header-actions">
           <div className="user-info">
-            <span className="user-avatar">👤</span>
-            <span>{localStorage.getItem("loggedInUser")}</span>
-            <span className="user-role">{localStorage.getItem("userRole") || "User"}</span>
+            <span className="user-avatar">
+              {userRole === "patient" ? "👤" : userRole === "doctor" ? "🩺" : "👩‍⚕️"}
+            </span>
+            <span>
+              {userRole === "doctor" ? `Dr. ${loggedInUsername}` : 
+               userRole === "nurse" ? `Nurse ${loggedInUsername}` : loggedInUsername}
+            </span>
+            <span className="user-role">{userRole.charAt(0).toUpperCase() + userRole.slice(1)}</span>
           </div>
           <button 
             className="logout-btn"
@@ -110,120 +281,60 @@ function Dashboard() {
       </div>
 
       <div className="dashboard-content">
-        {/* Quick Stats Overview */}
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon">👥</div>
-            <div className="stat-info">
-              <h3>Total Patients</h3>
-              <span className="stat-value">{membersData.length}</span>
+        {/* Quick Stats Overview - Only show for doctor/nurse */}
+        {(userRole === "doctor" || userRole === "nurse") && (
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-icon">👥</div>
+              <div className="stat-info">
+                <h3>Total Patients</h3>
+                <span className="stat-value">{membersData.length}</span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-icon">🩺</div>
+              <div className="stat-info">
+                <h3>High Risk</h3>
+                <span className="stat-value">
+                  {membersData.filter(m => m.riskScore >= 80).length}
+                </span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-icon">✅</div>
+              <div className="stat-info">
+                <h3>Active Cases</h3>
+                <span className="stat-value">
+                  {membersData.filter(m => m.admissions && m.admissions.length > 0).length}
+                </span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-icon">📊</div>
+              <div className="stat-info">
+                <h3>Avg Risk Score</h3>
+                <span className="stat-value">
+                  {Math.round(membersData.reduce((acc, m) => acc + m.riskScore, 0) / membersData.length)}
+                </span>
+              </div>
             </div>
           </div>
-          <div className="stat-card">
-            <div className="stat-icon">🩺</div>
-            <div className="stat-info">
-              <h3>High Risk</h3>
-              <span className="stat-value">
-                {membersData.filter(m => m.riskScore >= 80).length}
-              </span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">✅</div>
-            <div className="stat-info">
-              <h3>Active Cases</h3>
-              <span className="stat-value">
-                {membersData.filter(m => m.admissions && m.admissions.length > 0).length}
-              </span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">📊</div>
-            <div className="stat-info">
-              <h3>Avg Risk Score</h3>
-              <span className="stat-value">
-                {Math.round(membersData.reduce((acc, m) => acc + m.riskScore, 0) / membersData.length)}
-              </span>
-            </div>
-          </div>
-        </div>
+        )}
 
         <div className="main-content">
           {/* Left Panel - Search & History */}
           <div className="left-panel">
-            <div className="access-panel">
-              <div className="panel-header">
-                <h2>Patient Data Access</h2>
-                <p>Select your role and enter required information</p>
+            {renderAccessForm()}
+
+            {error && (
+              <div className="error-message">
+                <span>⚠️</span>
+                {error}
               </div>
+            )}
 
-              <div className="role-selector">
-                {["patient", "nurse", "doctor"].map((r) => (
-                  <button
-                    key={r}
-                    className={`role-btn ${role === r ? "active" : ""}`}
-                    onClick={() => setRole(r)}
-                  >
-                    <span className="role-icon">
-                      {r === "patient" ? "👤" : r === "nurse" ? "🩺" : "⚕️"}
-                    </span>
-                    {r.charAt(0).toUpperCase() + r.slice(1)}
-                  </button>
-                ))}
-              </div>
-
-              <form onSubmit={handleSubmit} className="access-form">
-                {role !== "patient" && (
-                  <div className="form-group">
-                    <label>{role.charAt(0).toUpperCase() + role.slice(1)} ID:</label>
-                    <input
-                      type="text"
-                      value={nurseId}
-                      onChange={(e) => setNurseId(e.target.value)}
-                      placeholder={`Enter your ${role} ID...`}
-                      className="modern-input"
-                    />
-                  </div>
-                )}
-
-                <div className="form-group">
-                  <label>Patient Identifier</label>
-                  <input
-                    type="text"
-                    value={patientId}
-                    onChange={(e) => setPatientId(e.target.value)}
-                    placeholder="Enter patient ID..."
-                    className="modern-input"
-                    required
-                  />
-                </div>
-
-                <button 
-                  type="submit" 
-                  className={`access-btn ${isLoading ? 'loading' : ''}`}
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <div className="spinner"></div>
-                  ) : (
-                    <>
-                      <span>🔍</span>
-                      Retrieve Patient Data
-                    </>
-                  )}
-                </button>
-              </form>
-
-              {error && (
-                <div className="error-message">
-                  <span>⚠️</span>
-                  {error}
-                </div>
-              )}
-            </div>
-
-            {/* Search History */}
-            {searchHistory.length > 0 && (
+            {/* Search History - Only show for doctor/nurse */}
+            {(userRole === "doctor" || userRole === "nurse") && searchHistory.length > 0 && (
               <div className="history-panel">
                 <h3>Recent Searches</h3>
                 <div className="history-list">
@@ -250,9 +361,10 @@ function Dashboard() {
             )}
           </div>
 
-          {/* Right Panel - Patient Details */}
+          {/* Right Panel - Patient Details or Welcome */}
           <div className="right-panel">
             {member ? (
+              // Patient Profile Display (same for all roles)
               <div className="patient-profile">
                 <div className="profile-header">
                   <div className="patient-avatar">
@@ -264,6 +376,7 @@ function Dashboard() {
                     <div className="patient-tags">
                       <span className="patient-tag">{getRiskLevel(member.riskScore)}</span>
                       <span className="patient-tag">{member.conditions.length} Conditions</span>
+                      <span className="patient-tag">{member.primaryDoctor}</span>
                     </div>
                   </div>
                   <div 
@@ -276,7 +389,7 @@ function Dashboard() {
 
                 {/* Tab Navigation */}
                 <div className="tab-navigation">
-                  {["overview", "conditions", "appointments", "interventions", "metrics"].map(tab => (
+                  {["overview", "conditions", "appointments", "interventions", "details"].map(tab => (
                     <button
                       key={tab}
                       className={`tab-btn ${activeTab === tab ? "active" : ""}`}
@@ -353,8 +466,8 @@ function Dashboard() {
                         {member.conditions.map((condition, index) => (
                           <div key={index} className="condition-row">
                             <span className="condition-name">{condition}</span>
-                            <span className="condition-severity"> Moderate </span>
-                            <span className="condition-status"> Active </span>
+                            <span className="condition-severity">Moderate</span>
+                            <span className="condition-status">Active</span>
                           </div>
                         ))}
                       </div>
@@ -367,14 +480,59 @@ function Dashboard() {
                       <div className="appointments-list">
                         {member.admissions.map((appointment, index) => (
                           <div key={index} className="appointment-item">
-                            <div className="appointment-date">Jun {15 + index}</div>
+                            <div className="appointment-date">
+                              {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            </div>
                             <div className="appointment-info">
                               <strong>{appointment}</strong>
-                              <span>Dr. Smith • Cardiology Department</span>
+                              <span>{member.primaryDoctor}</span>
                             </div>
-                            <button className="appointment-action">Reschedule</button>
+                            <div className="appointment-status">Scheduled</div>
                           </div>
                         ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === "interventions" && (
+                    <div className="interventions-detail">
+                      <h3>Care Interventions</h3>
+                      <div className="interventions-list">
+                        {member.interventions.map((intervention, index) => (
+                          <div key={index} className="intervention-item">
+                            <div className="intervention-number">{index + 1}</div>
+                            <div className="intervention-text">{intervention}</div>
+                            <div className="intervention-status">Active</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === "details" && (
+                    <div className="details-detail">
+                      <h3>Patient Details</h3>
+                      <div className="details-grid">
+                        <div className="detail-item">
+                          <label>Primary Doctor:</label>
+                          <span>{member.primaryDoctor}</span>
+                        </div>
+                        <div className="detail-item">
+                          <label>Insurance:</label>
+                          <span>{member.insurance}</span>
+                        </div>
+                        <div className="detail-item">
+                          <label>Last Visit:</label>
+                          <span>{member.lastVisit}</span>
+                        </div>
+                        <div className="detail-item">
+                          <label>Next Appointment:</label>
+                          <span>{member.nextAppointment}</span>
+                        </div>
+                        <div className="detail-item">
+                          <label>Emergency Contact:</label>
+                          <span>{member.emergencyContact}</span>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -383,25 +541,57 @@ function Dashboard() {
             ) : (
               <div className="welcome-panel">
                 <div className="welcome-content">
-                  <h2>Welcome to CareSync Dashboard</h2>
-                  <p>Enter a patient ID to view detailed health information, risk assessments, and care recommendations.</p>
+                  <h2>
+                    {userRole === "patient" && "Welcome to Your Patient Portal"}
+                    {userRole === "doctor" && "Doctor Dashboard"}
+                    {userRole === "nurse" && "Nurse Dashboard"}
+                  </h2>
+                  <p>
+                    {userRole === "patient" && "Enter your Patient ID above to access your complete health profile, including conditions, appointments, and care recommendations."}
+                    {userRole === "doctor" && "Enter your Doctor ID and Patient ID to access comprehensive medical records and treatment plans."}
+                    {userRole === "nurse" && "Enter your Nurse ID and Patient ID to access patient records and care management tools."}
+                  </p>
                   <div className="feature-list">
-                    <div className="feature-item">
-                      <span className="feature-icon">📊</span>
-                      <span>Risk Stratification</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-icon">🩺</span>
-                      <span>Condition Management</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-icon">📅</span>
-                      <span>Appointment Tracking</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-icon">💡</span>
-                      <span>Care Recommendations</span>
-                    </div>
+                    {userRole === "patient" && (
+                      <>
+                        <div className="feature-item">
+                          <span className="feature-icon">📊</span>
+                          <span>View Your Risk Score</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-icon">🩺</span>
+                          <span>Check Health Conditions</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-icon">📅</span>
+                          <span>See Upcoming Appointments</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-icon">💡</span>
+                          <span>Get Care Recommendations</span>
+                        </div>
+                      </>
+                    )}
+                    {(userRole === "doctor" || userRole === "nurse") && (
+                      <>
+                        <div className="feature-item">
+                          <span className="feature-icon">👥</span>
+                          <span>Access Patient Records</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-icon">📊</span>
+                          <span>Risk Analytics & Monitoring</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-icon">🩺</span>
+                          <span>Medical Condition Management</span>
+                        </div>
+                        <div className="feature-item">
+                          <span className="feature-icon">💊</span>
+                          <span>Treatment Plan Oversight</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
