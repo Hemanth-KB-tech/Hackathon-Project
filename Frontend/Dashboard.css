@@ -5,7 +5,7 @@
   overflow-x: hidden;
 }
 
-/* Medical Background with Proper Overlay */
+/* Medical Background with Glass Morphism */
 .dashboard-container::before {
   content: '';
   position: fixed;
@@ -14,7 +14,7 @@
   right: 0;
   bottom: 0;
   background: 
-    linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%),
+    linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%),
     url('https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
   background-size: cover;
   background-position: center;
@@ -24,21 +24,7 @@
   z-index: -1;
 }
 
-/* Alternative Medical Background Options - Uncomment to use */
-/*
-.dashboard-container::before {
-  background: 
-    linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%),
-    url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-}
-
-.dashboard-container::before {
-  background: 
-    linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%),
-    url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-}
-*/
-
+/* Header Styles */
 .dashboard-header {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
@@ -54,7 +40,7 @@
 .header-content h1 {
   font-size: 28px;
   font-weight: 700;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 4px;
@@ -89,7 +75,7 @@
 }
 
 .user-role {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   padding: 4px 10px;
   border-radius: 8px;
@@ -115,6 +101,7 @@
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
+/* Main Content */
 .dashboard-content {
   padding: 30px;
   max-width: 1400px;
@@ -122,7 +109,7 @@
   position: relative;
 }
 
-/* Stats Grid - Proper Alignment */
+/* Stats Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -138,14 +125,18 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
 }
 
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.4);
 }
 
 .stat-icon {
@@ -166,7 +157,7 @@
   color: #1f2937;
 }
 
-/* Main Content Layout - Fixed Alignment */
+/* Main Layout */
 .main-content {
   display: grid;
   grid-template-columns: 380px 1fr;
@@ -186,13 +177,15 @@
   min-height: 600px;
 }
 
-/* Access Panel */
+/* Access Panel - Glass Morphism */
 .access-panel {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   padding: 28px;
   border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -212,44 +205,6 @@
   color: #6b7280;
   font-size: 14px;
   line-height: 1.5;
-}
-
-.role-selector {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 28px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.role-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  color: #6b7280;
-  font-size: 14px;
-  flex: 1;
-  min-width: 100px;
-  justify-content: center;
-}
-
-.role-btn.active {
-  border-color: #6366f1;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
-}
-
-.role-icon {
-  font-size: 18px;
 }
 
 .access-form {
@@ -290,7 +245,7 @@
 
 .access-btn {
   padding: 16px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   border: none;
   border-radius: 12px;
@@ -307,7 +262,7 @@
 
 .access-btn:hover:not(.loading) {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .access-btn.loading {
@@ -334,7 +289,9 @@
   backdrop-filter: blur(20px);
   padding: 24px;
   border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -364,9 +321,9 @@
 }
 
 .history-item:hover {
-  background: rgba(99, 102, 241, 0.05);
+  background: rgba(102, 126, 234, 0.05);
   transform: translateX(4px);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(102, 126, 234, 0.2);
 }
 
 .history-info {
@@ -399,7 +356,9 @@
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 8px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.3);
   overflow: hidden;
 }
@@ -485,7 +444,7 @@
 
 .tab-btn.active {
   background: white;
-  color: #6366f1;
+  color: #667eea;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -506,6 +465,7 @@
   border-radius: 16px;
   border: 1px solid rgba(229, 231, 235, 0.5);
   backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .health-card h3 {
@@ -576,7 +536,7 @@
   display: block;
   font-size: 28px;
   font-weight: 800;
-  color: #6366f1;
+  color: #667eea;
   margin-bottom: 6px;
 }
 
@@ -595,7 +555,9 @@
   border-radius: 20px;
   padding: 80px 40px;
   text-align: center;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 8px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.3);
   height: 100%;
   display: flex;
@@ -639,6 +601,12 @@
   font-weight: 600;
   color: #374151;
   border: 1px solid rgba(229, 231, 235, 0.5);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .feature-icon {
@@ -658,6 +626,141 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Role-specific styling */
+.patient-view .panel-header,
+.doctor-view .panel-header,
+.nurse-view .panel-header {
+  text-align: center;
+}
+
+.patient-help {
+  margin-top: 20px;
+  padding: 16px;
+  background: #f0f9ff;
+  border-radius: 12px;
+  border: 1px solid #bae6fd;
+  text-align: center;
+}
+
+.patient-help p {
+  color: #0369a1;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Role-specific header colors */
+.patient-view .header-content h1 {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.doctor-view .header-content h1 {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nurse-view .header-content h1 {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Additional styles for detailed views */
+.conditions-table, .appointments-list, .interventions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.condition-row, .appointment-item, .intervention-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(229, 231, 235, 0.5);
+  transition: all 0.3s ease;
+}
+
+.condition-row:hover, .appointment-item:hover, .intervention-item:hover {
+  transform: translateX(4px);
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+.appointment-status {
+  background: #10b981;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.metrics-detailed-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.metric-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.metric-value-large {
+  font-size: 36px;
+  font-weight: 800;
+  color: #667eea;
+  margin: 10px 0;
+}
+
+.metric-level {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+/* Details grid styles */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(229, 231, 235, 0.5);
+  transition: all 0.3s ease;
+}
+
+.detail-item:hover {
+  transform: translateX(4px);
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+.detail-item label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.detail-item span {
+  color: #6b7280;
+  font-weight: 500;
 }
 
 /* Responsive Design */
@@ -720,6 +823,14 @@
   .tab-content {
     padding: 24px 20px;
   }
+  
+  .metrics-detailed-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -727,19 +838,11 @@
     grid-template-columns: 1fr;
   }
   
-  .role-selector {
-    flex-direction: column;
-  }
-  
-  .role-btn {
-    min-width: auto;
-  }
-  
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-  
   .welcome-panel {
     padding: 40px 20px;
+  }
+  
+  .access-panel {
+    padding: 20px;
   }
 }
