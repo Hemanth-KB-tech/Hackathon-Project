@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
+// Backend API URL
+const API_BASE_URL = "http://localhost:5000/api";
+
 function Signup() {
   const [formData, setFormData] = useState({
     username: "",
@@ -21,7 +24,6 @@ function Signup() {
       [name]: value
     }));
     
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -67,38 +69,42 @@ function Signup() {
     if (!validateForm()) return;
 
     setIsLoading(true);
+    setErrors({});
 
-    // Simulate API call
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const existingUser = users.find((u) => u.username === formData.username);
-      
-      if (existingUser) {
-        setErrors({ username: "Username already exists" });
-        setIsLoading(false);
-        return;
+    try {
+      const response = await fetch(`${API_BASE_URL}/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Store user session
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("loggedInUser", formData.username);
+        localStorage.setItem("userRole", formData.role);
+        localStorage.setItem("userEmail", formData.email);
+
+        // Navigate directly to dashboard without alert
+        navigate("/dashboard");
+      } else {
+        setErrors({ general: data.error });
       }
-
-      // Add new user to localStorage
-      const newUser = { 
-        username: formData.username, 
-        email: formData.email,
-        password: formData.password,
-        role: formData.role,
-        createdAt: new Date().toISOString()
-      };
-      
-      users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
-
-      // Automatically log in new user
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("loggedInUser", formData.username);
-      localStorage.setItem("userRole", formData.role);
-
+    } catch (error) {
+      console.error('Signup error:', error);
+      setErrors({ general: "Cannot connect to server. Make sure backend is running on localhost:5000" });
+    } finally {
       setIsLoading(false);
-      navigate("/dashboard");
-    }, 1500);
+    }
   };
 
   return (
@@ -107,8 +113,23 @@ function Signup() {
         <div className="signup-header">
           <div className="medical-icon">🏥</div>
           <h1>Join CareSync</h1>
-          <p className="subtitle">Create your account to access patient care management</p>
+          <p className="subtitle">Create your account - Data saved to JSON file</p>
         </div>
+
+        {errors.general && (
+          <div className="error-message" style={{ 
+            background: 'rgba(254, 242, 242, 0.9)',
+            border: '1px solid #fecaca',
+            color: '#dc2626',
+            padding: '16px',
+            borderRadius: '12px',
+            marginBottom: '20px',
+            textAlign: 'center',
+            fontWeight: '500'
+          }}>
+            ⚠️ {errors.general}
+          </div>
+        )}
 
         <form onSubmit={handleSignup} className="signup-form">
           <div className="form-row">
@@ -210,12 +231,12 @@ function Signup() {
             {isLoading ? (
               <>
                 <div className="spinner"></div>
-                Creating Account...
+                :oadi...
               </>
             ) : (
               <>
                 <span>🚀</span>
-                Create Account
+                Create Account 
               </>
             )}
           </button>
@@ -232,10 +253,7 @@ function Signup() {
           </div>
         </form>
 
-        <div className="security-notice">
-          <div className="security-icon">🔒</div>
-          <p>Your data is secured with enterprise-grade encryption</p>
-        </div>
+        
       </div>
     </div>
   );
