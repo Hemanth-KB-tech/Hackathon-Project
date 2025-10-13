@@ -6,28 +6,44 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(""); // Clear previous errors
 
-    // Simulate API call
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const user = users.find(
-        (u) => u.username === username && u.password === password
-      );
+    try {
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        })
+      });
 
-      if (user) {
+      const data = await response.json();
+
+      if (data.success) {
         localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("loggedInUser", username);
+        localStorage.setItem("loggedInUser", data.user.username);
+        localStorage.setItem("userRole", data.user.role);
+        localStorage.setItem("userEmail", data.user.email);
+        
         navigate("/dashboard");
       } else {
-        alert("❌ Invalid credentials. Please try again or sign up.");
+        setError(data.error || "Invalid credentials");
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError("Cannot connect to server. Please check if backend is running.");
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -38,6 +54,23 @@ function Login() {
           <h1>CareSync</h1>
           <p className="tagline">Intelligent Patient Risk Stratification</p>
         </div>
+
+        {/* Attractive Error Display */}
+        {error && (
+          <div className="login-error-message">
+            <div className="error-icon">⚠️</div>
+            <div className="error-content">
+              <div className="error-title">Login Failed</div>
+              <div className="error-description">{error}</div>
+            </div>
+            <button 
+              className="error-close"
+              onClick={() => setError("")}
+            >
+              ×
+            </button>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="input-group">
